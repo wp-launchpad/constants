@@ -2,10 +2,9 @@
 
 namespace LaunchpadConstants;
 
-use LaunchpadConstants\ConstantsInterface;
 use LaunchpadDispatcher\Dispatcher;
 
-class PrefixedConstants extends Constants
+class PrefixedConstants extends Constants implements PrefixedConstantsInterface
 {
     /**
      * @var string
