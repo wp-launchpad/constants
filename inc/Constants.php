@@ -2,6 +2,7 @@
 
 namespace LaunchpadConstants;
 
+use LaunchpadConstants\Sanitizers\ConstantSanitizer;
 use LaunchpadDispatcher\Dispatcher;
 
 class Constants implements ConstantsInterface
@@ -29,9 +30,15 @@ class Constants implements ConstantsInterface
 
     public function get(string $name)
     {
+        $value = $this->dispatcher->apply_filters("constant_{$name}_value", new ConstantSanitizer(), null);
+
+        if( $value ) {
+            return $value;
+        }
+
         $value = constant($name);
 
-        return $this->dispatcher->apply_bool_filters("constant_{$name}_value", $value);
+        return $this->dispatcher->apply_filters("constant_{$name}_value", new ConstantSanitizer(), $value);
     }
 
     public function set(string $name, $value)
